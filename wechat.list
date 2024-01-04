@@ -1,0 +1,26 @@
+# NAME: WeChat
+# UPDATED: 2023-12-14 16:57:52
+# HOST: 12
+# HOST-SUFFIX: 6
+# IP-ASN: 1
+# USER-AGENT: 1
+# TOTAL: 20
+HOST,dl.wechat.com,WeChat
+HOST,sgfindershort.wechat.com,WeChat
+HOST,sgilinkshort.wechat.com,WeChat
+HOST,sglong.wechat.com,WeChat
+HOST,sgminorshort.wechat.com,WeChat
+HOST,sgquic.wechat.com,WeChat
+HOST,sgshort.wechat.com,WeChat
+HOST,slife.xy-asia.com,WeChat
+HOST,tencentmap.wechat.com,WeChat
+HOST,support.wechat.com,WeChat
+HOST,sgshort.pay.wechat.com,WeChat
+HOST,sgaxshort.wechat.com,WeChat
+HOST-SUFFIX,servicewechat.com,WeChat
+HOST-SUFFIX,wechat.com,WeChat
+HOST-SUFFIX,wechatlegal.net,WeChat
+HOST-SUFFIX,wechatos.net,WeChat
+HOST-SUFFIX,wechatpay.com,WeChat
+USER-AGENT,WeChat*,WeChat
+IP-ASN,132203,WeChat
