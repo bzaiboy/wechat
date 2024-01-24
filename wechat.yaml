@@ -23,5 +23,5 @@ payload:
   - DOMAIN-SUFFIX,wechatos.net
   - DOMAIN-SUFFIX,wechatpay.com
   - DOMAIN-KEYWORD,WeChat
-  - IP-ASN,132203
+  - IP-ASN,132203,WeChat
 
