@@ -1,6 +1,6 @@
-- DOMAIN-KEYWORD,soulapp,DIRECT
-- DOMAIN-SUFFIX,soulapp.cn,DIRECT
-- DOMAIN-SUFFIX,soul.cn,DIRECT
-- DOMAIN-SUFFIX,soulapp.it,DIRECT
-- DOMAIN-SUFFIX,soulvoice.cn,DIRECT
-- DOMAIN-SUFFIX,soul-cdn.com,DIRECT
+- DOMAIN-KEYWORD,soulapp
+- DOMAIN-SUFFIX,soulapp.cn
+- DOMAIN-SUFFIX,soul.cn
+- DOMAIN-SUFFIX,soulapp.it
+- DOMAIN-SUFFIX,soulvoice.cn
+- DOMAIN-SUFFIX,soul-cdn.com
