@@ -1,0 +1,14 @@
+#!name=X Clean 🍀
+#!desc=X(Twitter) 时间线去广告插件
+#!author=ChatGPT
+#!icon=https://abs.twimg.com/icons/apple-touch-icon-192x192.png
+
+
+[MITM]
+
+hostname = %APPEND% api.x.com,api.twitter.com
+
+
+[Script]
+
+http-response ^https:\/\/(api\.x\.com|api\.twitter\.com)\/.* requires-body=true,timeout=10,script-path=X_Clean.js,tag=X时间线清理,enable=true
