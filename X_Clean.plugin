@@ -9,6 +9,7 @@
 hostname = %APPEND% api.x.com,api.twitter.com
 
 
+
 [Script]
 
-http-response ^https:\/\/(api\.x\.com|api\.twitter\.com)\/.* requires-body=true,timeout=10,script-path=X_Clean.js,tag=X时间线清理,enable=true
+http-response ^https:\/\/(api\.x\.com|api\.twitter\.com)\/graphql\/.* requires-body=1,timeout=10,script-path=X_Clean.js,tag=X时间线清理
