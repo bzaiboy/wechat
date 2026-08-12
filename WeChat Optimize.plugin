@@ -6,6 +6,7 @@
 fake-ip-filter =
 *.weixin.qq.com
 *.wx.qq.com
+*.wechat.com
 *.qpic.cn
 *.qlogo.cn
 *.gtimg.cn
@@ -24,5 +25,6 @@ fake-ip-filter =
 DOMAIN-SUFFIX,qpic.cn,DIRECT
 DOMAIN-SUFFIX,qlogo.cn,DIRECT
 DOMAIN-SUFFIX,gtimg.cn,DIRECT
+DOMAIN-SUFFIX,wechat.com,DIRECT
 DOMAIN-SUFFIX,weixin.qq.com,DIRECT
 DOMAIN-SUFFIX,mmbiz.cn,DIRECT
