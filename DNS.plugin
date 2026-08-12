@@ -1,652 +1,303 @@
 #!name=🍟 Loon DNS Enhanced Ultimate
-#!desc=大陆环境终极DNS分流：Fake-IP兼容/国内外DNS/Apple/AI/流媒体/防泄漏
+#!desc=基于当前Loon DNS架构的精简分流：国内DoH/海外DoH/Apple/YouTube/AI/开发/社交/流媒体/IPv6/DNS劫持
 #!author=ChatGPT
 #!category=🍟 Fries
 #!icon=https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Server.png
+#!loon_version=3.2.5(789)
 
 
 [General]
 
-# DNS增强模式
-dns-server = https://dns.alidns.com/dns-query
-dns-server = https://doh.pub/dns-query
+# ============================================================
+# 默认 DNS
+#
+# Loon 当前语法：
+# dns-server  = UDP DNS
+# doh-server  = DNS over HTTPS
+#
+# 默认使用国内 DoH。
+# ============================================================
 
-# 海外Fallback
-fallback-dns = https://cloudflare-dns.com/dns-query
-fallback-dns = https://dns.google/dns-query
+doh-server = https://dns.alidns.com/dns-query,https://doh.pub/dns-query
 
 
-# 防DNS泄漏
-dns-direct-system = false
+
+# ============================================================
+# IPv4 / IPv6
+#
+# ipv6 已在 Loon 3.2.3+ 弃用。
+# dual：
+# 同时查询 A / AAAA，并根据响应速度选择。
+# ============================================================
+
+ip-mode = dual
 
 
-# IPv6支持
-ipv6 = true
+# ---------- Fake-IP 与防泄漏 ----------
+# 这些域名返回真实 IP，避免系统缓存 Fake-IP 导致关闭 Loon 后异常
+real-ip = *.apple.com,*.icloud.com,*.mzstatic.com,localhost,*.local,*.lan,*.arpa,router.*,*.home
+
+
+# ============================================================
+# DNS 劫持
+#
+# 3.2.5 (build 789+) 支持。
+# 用于拦截 App 自己发起的 UDP/53 DNS 查询，
+# 防止 App 绕过 Loon 使用自定义 DNS。
+# ============================================================
+
+hijack-dns = *:53
 
 
 
 [Host]
 
 
-# ===============================
+# ============================================================
 # Localhost
-# ===============================
-
+# ============================================================
 
 localhost = server:system
-
 localhost.localdomain = server:system
 
 ip6-localhost = ::1
-
 ip6-loopback = ::1
 
 
-
-# ===============================
+# ============================================================
 # Router / LAN
-# 强制系统DNS
-# ===============================
-
+#
+# 本地路由器/设备管理域名交给系统 DNS。
+# ============================================================
 
 router.asus.com = server:system
-
 routerlogin.net = server:system
-
 orbilogin.com = server:system
 
-
 tplinkwifi.net = server:system
-
 tplinklogin.net = server:system
-
 tplogin.cn = server:system
 
-
 miwifi.com = server:system
-
 www.miwifi.com = server:system
-
 
 mediarouter.home = server:system
 
-
 melogin.cn = server:system
-
 falogin.cn = server:system
 
-
 tendawifi.com = server:system
-
-
 zte.home = server:system
-
-
 hiwifi.com = server:system
-
 
 p.to = server:system
 
-
 amplifi.lan = server:system
-
-
 unifi.local = server:system
 
 
-
-# ===============================
+# ============================================================
 # Private Network
-# ===============================
-
+# ============================================================
 
 home.arpa = server:system
-
 local = server:system
 
 
 
-# ===============================
-# DNS服务自身解析
-# ===============================
-
-
-dns.google = 8.8.8.8
-
-cloudflare-dns.com = 104.16.249.249
-
-dns.alidns.com = 223.5.5.5
-
-doh.pub = 1.12.12.12
-
-doh.360.cn = 23.6.48.18
-
-# ===============================
-# Apple DNS
-# ===============================
-
+# ============================================================
+# Apple
+#
+# Apple 官方 DoH
+# ============================================================
 
 networking.apple = server:https://doh.dns.apple.com/dns-query
 
-
-*.icloud.com = server:https://doh.dns.apple.com/dns-query
-
-
 *.apple.com = server:https://doh.dns.apple.com/dns-query
 
-# ===============================
-# Google Ecosystem
-# Google官方DNS
-# ===============================
-
-
-*.google.com = server:https://dns.google/dns-query
-
-*.googleapis.com = server:https://dns.google/dns-query
-
-*.gstatic.com = server:https://dns.google/dns-query
-
-*.googleusercontent.com = server:https://dns.google/dns-query
-
-*.ggpht.com = server:https://dns.google/dns-query
-
-*.googlevideo.com = server:https://dns.google/dns-query
-
-*.ytimg.com = server:https://dns.google/dns-query
-
-*.youtube.com = server:https://dns.google/dns-query
-
-*.youtube-nocookie.com = server:https://dns.google/dns-query
-
-
-
-# Google STUN
-stun.l.google.com = server:system
-
-stun1.l.google.com = server:system
-
-stun2.l.google.com = server:system
-
-stun3.l.google.com = server:system
-
-stun4.l.google.com = server:system
-
-
-
-# ===============================
-# AI Services
-# Cloudflare DNS
-# ===============================
-
-
-# OpenAI
-
-*.openai.com = server:https://cloudflare-dns.com/dns-query
-
-*.chatgpt.com = server:https://cloudflare-dns.com/dns-query
-
-
-# Anthropic Claude
-
-*.anthropic.com = server:https://cloudflare-dns.com/dns-query
-
-*.claude.ai = server:https://cloudflare-dns.com/dns-query
-
-
-# Google Gemini
-
-*.gemini.google.com = server:https://dns.google/dns-query
-
-
-# HuggingFace
-
-*.huggingface.co = server:https://cloudflare-dns.com/dns-query
-
-
-# Replicate
-
-*.replicate.com = server:https://cloudflare-dns.com/dns-query
-
-
-
-# ===============================
-# Developer / Tech Services
-# ===============================
-
-
-# GitHub
-
-*.github.com = server:https://cloudflare-dns.com/dns-query
-
-*.githubusercontent.com = server:https://cloudflare-dns.com/dns-query
-
-*.githubassets.com = server:https://cloudflare-dns.com/dns-query
-
-
-
-# Docker
-
-*.docker.com = server:https://cloudflare-dns.com/dns-query
-
-*.docker.io = server:https://cloudflare-dns.com/dns-query
-
-
-
-# NPM
-
-*.npmjs.com = server:https://cloudflare-dns.com/dns-query
-
-
-
-# PyPI
-
-*.pypi.org = server:https://cloudflare-dns.com/dns-query
-
-
-
-# ===============================
-# Telegram
-# ===============================
-
-
-*.telegram.org = server:https://cloudflare-dns.com/dns-query
-
-*.telegram.me = server:https://cloudflare-dns.com/dns-query
-
-*.t.me = server:https://cloudflare-dns.com/dns-query
-
-
-
-# Telegram CDN
-
-*.telegram-cdn.org = server:https://cloudflare-dns.com/dns-query
-
-
-
-# ===============================
-# Social Media
-# ===============================
-
-
-# X / Twitter
-
-*.twitter.com = server:https://cloudflare-dns.com/dns-query
-
-*.x.com = server:https://cloudflare-dns.com/dns-query
-
-*.twimg.com = server:https://cloudflare-dns.com/dns-query
-
-
-
-# Reddit
-
-*.reddit.com = server:https://cloudflare-dns.com/dns-query
-
-*.redd.it = server:https://cloudflare-dns.com/dns-query
-
-
-
-# Discord
-
-*.discord.com = server:https://cloudflare-dns.com/dns-query
-
-*.discordapp.com = server:https://cloudflare-dns.com/dns-query
-
-
-
-# ===============================
-# Streaming Media
-# ===============================
-
-
-# Netflix
-
-*.netflix.com = server:https://cloudflare-dns.com/dns-query
-
-*.nflxvideo.net = server:https://cloudflare-dns.com/dns-query
-
-*.nflximg.net = server:https://cloudflare-dns.com/dns-query
-
-*.nflxso.net = server:https://cloudflare-dns.com/dns-query
-
-
-
-# Disney+
-
-*.disneyplus.com = server:https://cloudflare-dns.com/dns-query
-
-*.disney-plus.net = server:https://cloudflare-dns.com/dns-query
-
-
-
-# Amazon Prime Video
-
-*.primevideo.com = server:https://cloudflare-dns.com/dns-query
-
-
-
-# Spotify
-
-*.spotify.com = server:https://cloudflare-dns.com/dns-query
-
-
-
-# Apple Music CDN
+*.icloud.com = server:https://doh.dns.apple.com/dns-query
 
 *.mzstatic.com = server:https://doh.dns.apple.com/dns-query
 
 
 
-# ===============================
-# Microsoft
-# ===============================
+# ============================================================
+# Google / YouTube
+#
+# 不再把整个 Google 域名空间全部交给 Google DNS。
+# 只处理实际与 YouTube / 视频 CDN 相关的域名。
+# ============================================================
 
+*.youtube.com = server:https://dns.google/dns-query
+
+*.youtube-nocookie.com = server:https://dns.google/dns-query
+
+*.googlevideo.com = server:https://dns.google/dns-query
+
+*.ytimg.com = server:https://dns.google/dns-query
+
+
+
+# ============================================================
+# AI Services
+# ============================================================
+
+# OpenAI
+*.openai.com = server:https://cloudflare-dns.com/dns-query
+*.chatgpt.com = server:https://cloudflare-dns.com/dns-query
+
+# Anthropic
+*.anthropic.com = server:https://cloudflare-dns.com/dns-query
+*.claude.ai = server:https://cloudflare-dns.com/dns-query
+
+# Gemini
+*.gemini.google.com = server:https://dns.google/dns-query
+
+# Hugging Face
+*.huggingface.co = server:https://cloudflare-dns.com/dns-query
+
+# Replicate
+*.replicate.com = server:https://cloudflare-dns.com/dns-query
+
+
+
+# ============================================================
+# Developer / Tech
+# ============================================================
+
+# GitHub
+*.github.com = server:https://cloudflare-dns.com/dns-query
+*.githubusercontent.com = server:https://cloudflare-dns.com/dns-query
+*.githubassets.com = server:https://cloudflare-dns.com/dns-query
+
+# Docker
+*.docker.com = server:https://cloudflare-dns.com/dns-query
+*.docker.io = server:https://cloudflare-dns.com/dns-query
+
+# NPM
+*.npmjs.com = server:https://cloudflare-dns.com/dns-query
+
+# PyPI
+*.pypi.org = server:https://cloudflare-dns.com/dns-query
+
+
+
+# ============================================================
+# Telegram
+# ============================================================
+
+*.telegram.org = server:https://cloudflare-dns.com/dns-query
+*.telegram.me = server:https://cloudflare-dns.com/dns-query
+*.t.me = server:https://cloudflare-dns.com/dns-query
+*.telegram-cdn.org = server:https://cloudflare-dns.com/dns-query
+
+
+
+# ============================================================
+# Social Media
+# ============================================================
+
+# X / Twitter
+*.twitter.com = server:https://cloudflare-dns.com/dns-query
+*.x.com = server:https://cloudflare-dns.com/dns-query
+*.twimg.com = server:https://cloudflare-dns.com/dns-query
+
+# Reddit
+*.reddit.com = server:https://cloudflare-dns.com/dns-query
+*.redd.it = server:https://cloudflare-dns.com/dns-query
+
+# Discord
+*.discord.com = server:https://cloudflare-dns.com/dns-query
+*.discordapp.com = server:https://cloudflare-dns.com/dns-query
+
+
+
+# ============================================================
+# Streaming
+# ============================================================
+
+# Netflix
+*.netflix.com = server:https://cloudflare-dns.com/dns-query
+*.nflxvideo.net = server:https://cloudflare-dns.com/dns-query
+*.nflximg.net = server:https://cloudflare-dns.com/dns-query
+*.nflxso.net = server:https://cloudflare-dns.com/dns-query
+
+# Disney+
+*.disneyplus.com = server:https://cloudflare-dns.com/dns-query
+*.disney-plus.net = server:https://cloudflare-dns.com/dns-query
+
+# Amazon Prime Video
+*.primevideo.com = server:https://cloudflare-dns.com/dns-query
+
+# Spotify
+*.spotify.com = server:https://cloudflare-dns.com/dns-query
+
+
+
+# ============================================================
+# Microsoft
+# ============================================================
 
 *.microsoft.com = server:https://cloudflare-dns.com/dns-query
-
 *.office.com = server:https://cloudflare-dns.com/dns-query
-
 *.office365.com = server:https://cloudflare-dns.com/dns-query
-
 *.live.com = server:https://cloudflare-dns.com/dns-query
-
 *.outlook.com = server:https://cloudflare-dns.com/dns-query
-
 *.onedrive.com = server:https://cloudflare-dns.com/dns-query
 
 
 
-# ===============================
+# ============================================================
 # Cloud Services
-# ===============================
-
+# ============================================================
 
 # Cloudflare
-
 *.cloudflare.com = server:https://cloudflare-dns.com/dns-query
-
 *.workers.dev = server:https://cloudflare-dns.com/dns-query
 
-
-
 # AWS
-
 *.amazonaws.com = server:https://cloudflare-dns.com/dns-query
 
-
-
 # Google Cloud
-
 *.googlecloud.com = server:https://dns.google/dns-query
 
 
 
-# ===============================
+# ============================================================
 # Game Services
-# ===============================
-
+# ============================================================
 
 # Steam
-
 *.steampowered.com = server:https://cloudflare-dns.com/dns-query
-
 *.steamcommunity.com = server:https://cloudflare-dns.com/dns-query
 
-
-
 # Epic
-
 *.epicgames.com = server:https://cloudflare-dns.com/dns-query
 
-
-
 # Nintendo
-
 *.nintendo.com = server:https://cloudflare-dns.com/dns-query
 
-# ===============================
-# 中国大陆服务
-# 国内DNS解析
-# ===============================
 
 
-# ===============================
-# Alibaba / Aliyun
-# ===============================
-
-
-*.taobao.com = server:https://dns.alidns.com/dns-query
-
-*.tmall.com = server:https://dns.alidns.com/dns-query
-
-*.1688.com = server:https://dns.alidns.com/dns-query
-
-*.alicdn.com = server:https://dns.alidns.com/dns-query
-
-*.aliyun.com = server:https://dns.alidns.com/dns-query
-
-*.aliyuncs.com = server:https://dns.alidns.com/dns-query
-
-*.aliyundrive.com = server:https://dns.alidns.com/dns-query
-
-*.aliyundun.com = server:https://dns.alidns.com/dns-query
-
-*.alipay.com = server:https://dns.alidns.com/dns-query
-
-*.alipayobjects.com = server:https://dns.alidns.com/dns-query
-
-
-
-# ===============================
-# Tencent
-# 腾讯DNSPod
-# ===============================
-
-
-*.qq.com = server:https://doh.pub/dns-query
-
-*.qpic.cn = server:https://doh.pub/dns-query
-
-*.qlogo.cn = server:https://doh.pub/dns-query
-
-*.gtimg.cn = server:https://doh.pub/dns-query
-
-*.weixin.qq.com = server:https://doh.pub/dns-query
-
-*.wechat.com = server:https://doh.pub/dns-query
-
-*.weixin.com = server:https://doh.pub/dns-query
-
-*.servicewechat.com = server:https://doh.pub/dns-query
-
-*.qcloud.com = server:https://doh.pub/dns-query
-
-*.qcloudcdn.com = server:https://doh.pub/dns-query
-
-*.qcloudcos.com = server:https://doh.pub/dns-query
-
-
-
-# ===============================
-# Baidu
-# ===============================
-
-
-*.baidu.com = server:180.76.76.76
-
-*.bdimg.com = server:180.76.76.76
-
-*.bdstatic.com = server:180.76.76.76
-
-*.bcebos.com = server:180.76.76.76
-
-*.baidupcs.com = server:180.76.76.76
-
-
-
-# ===============================
-# ByteDance
-# ===============================
-
-
-*.douyin.com = server:180.184.1.1
-
-*.douyinpic.com = server:180.184.1.1
-
-*.douyinstatic.com = server:180.184.1.1
-
-*.toutiao.com = server:180.184.1.1
-
-*.snssdk.com = server:180.184.1.1
-
-*.byteimg.com = server:180.184.1.1
-
-*.ixigua.com = server:180.184.1.1
-
-*.pstatp.com = server:180.184.1.1
-
-
-
-# ===============================
-# 京东
-# ===============================
-
-
-*.jd.com = server:https://dns.alidns.com/dns-query
-
-*.360buyimg.com = server:https://dns.alidns.com/dns-query
-
-
-
-# ===============================
-# 美团 / 大众点评
-# ===============================
-
-
-*.meituan.com = server:https://doh.pub/dns-query
-
-*.meituan.net = server:https://doh.pub/dns-query
-
-
-
-# ===============================
-# 拼多多
-# ===============================
-
-
-*.pinduoduo.com = server:https://dns.alidns.com/dns-query
-
-*.yangkeduo.com = server:https://dns.alidns.com/dns-query
-
-
-
-# ===============================
-# 小红书
-# ===============================
-
-
-*.xiaohongshu.com = server:https://doh.pub/dns-query
-
-*.xhscdn.com = server:https://doh.pub/dns-query
-
-
-
-# ===============================
-# 哔哩哔哩
-# CDN优化
-# ===============================
-
-
-*.bilibili.com = server:https://dns.alidns.com/dns-query
-
-*.bilivideo.com = server:https://dns.alidns.com/dns-query
-
-
-upos-sz-mirrorali.bilivideo.com = server:https://dns.alidns.com/dns-query
-
-upos-sz-mirrorcos.bilivideo.com = server:https://doh.pub/dns-query
-
-
-
-# ===============================
-# 爱奇艺 / 腾讯视频 / 优酷
-# ===============================
-
-
-*.iqiyi.com = server:https://dns.alidns.com/dns-query
-
-*.iqiyipic.com = server:https://dns.alidns.com/dns-query
-
-
-*.youku.com = server:https://dns.alidns.com/dns-query
-
-*.ykimg.com = server:https://dns.alidns.com/dns-query
-
-
-*.v.qq.com = server:https://doh.pub/dns-query
-
-*.video.qq.com = server:https://doh.pub/dns-query
-
-
-
-# ===============================
-# 华为 / 小米 / OPPO / Vivo
-# ===============================
-
-
-*.huawei.com = server:https://dns.alidns.com/dns-query
-
-*.hicloud.com = server:https://dns.alidns.com/dns-query
-
-
-*.xiaomi.com = server:https://dns.alidns.com/dns-query
-
-*.mi.com = server:https://dns.alidns.com/dns-query
-
-
-*.oppo.com = server:https://dns.alidns.com/dns-query
-
-*.vivo.com.cn = server:https://dns.alidns.com/dns-query
-
-
-
-# ===============================
-# 国内域名兜底
-# ===============================
-
+# ============================================================
+# Mainland China
+#
+# 不再对淘宝、腾讯、百度、字节、京东、B站等逐个指定 DNS。
+#
+# 默认 DNS 已经是：
+# AliDNS + DNSPod
+#
+# 除非实际测试证明某个域名使用特殊 DNS 能得到明显更好的
+# CDN 调度，否则没有必要增加规则。
+# ============================================================
+
+
+# ============================================================
+# China TLD
+# ============================================================
 
 *.cn = server:https://dns.alidns.com/dns-query
 
 *.中国 = server:https://dns.alidns.com/dns-query
 
 
-
-# ===============================
-# Final DNS Rules
-# ===============================
-
-
-[Rule]
-
-
-# 私有网络直连
-
-IP-CIDR,127.0.0.0/8,DIRECT
-
-IP-CIDR,10.0.0.0/8,DIRECT
-
-IP-CIDR,172.16.0.0/12,DIRECT
-
-IP-CIDR,192.168.0.0/16,DIRECT
-
-
-
-# 中国大陆IP
-
-GEOIP,CN,DIRECT
-
-
-
-# 默认代理
-
-FINAL,PROXY
